@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Follower Package Selection</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #0e0e0e;
+      color: white;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #00e676;
+      margin-bottom: 30px;
+      font-size: 26px;
+    }
+
+    .card {
+      background: #1a1a1a;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0, 230, 118, 0.2);
+      margin-bottom: 20px;
+      transition: transform 0.2s;
+    }
+
+    .card:hover {
+      transform: scale(1.02);
+    }
+
+    .card h3 {
+      margin: 0 0 10px;
+      font-size: 20px;
+      color: #ffffff;
+    }
+
+    .btn {
+      background: linear-gradient(to right, #00e676, #00c853);
+      border: none;
+      padding: 10px 20px;
+      color: black;
+      font-weight: bold;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 15px;
+    }
+
+    .footer-note {
+      text-align: center;
+      margin-top: 40px;
+      color: #999;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2> Choose Follower Package</h2>
+
+  <div class="card">
+    <h3>1000 Followers - 120</h3>
+    <button class="btn" onclick="goToPayment('1000 Followers - 120')">Order Now</button>
+  </div>
+
+  <div class="card">
+    <h3>2000 Followers - 220</h3>
+    <button class="btn" onclick="goToPayment('2000 Followers - 220')">Order Now</button>
+  </div>
+
+  <div class="card">
+    <h3>3000 Followers - 320</h3>
+    <button class="btn" onclick="goToPayment('3000 Followers - 320')">Order Now</button>
+  </div>
+
+  <div class="card">
+    <h3>4000 Followers - 420</h3>
+    <button class="btn" onclick="goToPayment('4000 Followers - 420')">Order Now</button>
+  </div>
+
+  <div class="card">
+    <h3>5000 Followers - 530</h3>
+    <button class="btn" onclick="goToPayment('5000 Followers - 530')">Order Now</button>
+  </div>
+
+  <p class="footer-note"> 100% Real & Safe Facebook Followers | Delivery within 12-24 hrs</p>
+
+  <script>
+    function goToPayment(pkg) {
+      localStorage.setItem("selected_package", pkg);
+      window.location.href = "payment.html";
+    }
+  </script>
+
+</body>
+</html>
