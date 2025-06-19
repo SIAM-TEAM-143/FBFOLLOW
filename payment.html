@@ -125,19 +125,19 @@
 </head>
 <body>
 
-  <header> Payment & Facebook Follower Order</header>
+  <header>💳 Payment & Facebook Follower Order</header>
 
   <div class="form-box">
-    <label> Facebook Page/Profile Link</label>
+    <label>📄 Facebook Page/Profile Link</label>
     <input type="url" id="fbLink" placeholder="https://facebook.com/yourpage" required>
 
-    <label> Your Email</label>
+    <label>📧 Your Email</label>
     <input type="email" id="email" placeholder="your@gmail.com" required>
 
-    <label> Your Phone Number</label>
+    <label>📱 Your Phone Number</label>
     <input type="text" id="phone" placeholder="017xxxxxxxx" required>
 
-    <label> Select Payment Method</label>
+    <label>💳 Select Payment Method</label>
     <select id="paymentMethod" onchange="updatePaymentInfo()">
       <option value="">-- Select Method --</option>
       <option value="bKash">bKash</option>
@@ -146,98 +146,102 @@
 
     <div class="info-box" id="paymentInfo" style="display:none;"></div>
 
-    <label> Transaction ID</label>
+    <label>🧾 Transaction ID</label>
     <input type="text" id="trx" placeholder="TXN239384" required>
 
-    <label> Upload Screenshot</label>
+    <label>📸 Upload Screenshot</label>
     <input type="file" id="screenshot" accept="image/*" required>
 
-    <button class="btn" onclick="submitOrder()"> Submit Order</button>
+    <button class="btn" onclick="submitOrder()">📤 Submit Order</button>
 
-    <div class="success" id="successMsg"> Order Submitted Successfully! Please wait for confirmation.</div>
+    <div class="success" id="successMsg">✅ Order Submitted Successfully! Please wait for confirmation.</div>
   </div>
 
   <script>
-  function updatePaymentInfo() {
-    const method = document.getElementById("paymentMethod").value;
-    const infoBox = document.getElementById("paymentInfo");
-    if (method === "bKash") {
-      infoBox.innerHTML = `
-        <div class="number-copy">
-          <span> bKash: 0197846464</span>
-          <button class="copy-btn" onclick="copyText('0197846464')">Copy</button>
-        </div>
-        <div class="highlight">        , </div>
-      `;
-      infoBox.style.display = "block";
-    } else if (method === "Nagad") {
-      infoBox.innerHTML = `
-        <div class="number-copy">
-          <span> Nagad: 0192828272</span>
-          <button class="copy-btn" onclick="copyText('0192828272')">Copy</button>
-        </div>
-        <div class="highlight">        , </div>
-      `;
-      infoBox.style.display = "block";
-    } else {
-      infoBox.style.display = "none";
-    }
-  }
-
-  function copyText(number) {
-    navigator.clipboard.writeText(number);
-    alert(" Number copied: " + number);
-  }
-
-  function submitOrder() {
-    const fbLink = document.getElementById("fbLink").value;
-    const email = document.getElementById("email").value;
-    const phone = document.getElementById("phone").value;
-    const method = document.getElementById("paymentMethod").value;
-    const trx = document.getElementById("trx").value;
-    const screenshotInput = document.getElementById("screenshot");
-
-    if (!method || !fbLink || !email || !phone || !trx || !screenshotInput.files[0]) {
-      alert(" Please fill in all fields and upload a screenshot.");
-      return;
+    function updatePaymentInfo() {
+      const method = document.getElementById("paymentMethod").value;
+      const infoBox = document.getElementById("paymentInfo");
+      if (method === "bKash") {
+        infoBox.innerHTML = `
+          <div class="number-copy">
+            <span>📱 bKash: not available </span>
+            <button class="copy-btn" onclick="copyText('0197846464')">Copy</button>
+          </div>
+          <div class="highlight">📝 টাকা সেন্ড মানি করে ট্রান্সলেশন আইডি জমা দিবেন, ধন্যবাদ।</div>
+        `;
+        infoBox.style.display = "block";
+      } else if (method === "Nagad") {
+        infoBox.innerHTML = `
+          <div class="number-copy">
+            <span>📱 Nagad: 01923690354</span>
+            <button class="copy-btn" onclick="copyText('0192828272')">Copy</button>
+          </div>
+          <div class="highlight">📝 টাকা সেন্ড মানি করে ট্রান্সলেশন আইডি জমা দিবেন, ধন্যবাদ।</div>
+        `;
+        infoBox.style.display = "block";
+      } else {
+        infoBox.style.display = "none";
+      }
     }
 
-    const reader = new FileReader();
-    reader.onload = function () {
-      const botToken = "8026518851:AAErSnJE5y1jw-Y46Evfl63QrXnytU2XgOg";
-      const chatId = "7749577158";
+    function copyText(number) {
+      navigator.clipboard.writeText(number);
+      alert("✅ Number copied: " + number);
+    }
 
-      const message = `
- New Follower Order:
-
- FB Link: ${fbLink}
- Email: ${email}
- Phone: ${phone}
- Payment: ${method}
- TXN ID: ${trx}
- Screenshot: Attached`;
+    function submitOrder() {
+      const fbLink = document.getElementById("fbLink").value;
+      const email = document.getElementById("email").value;
+      const phone = document.getElementById("phone").value;
+      const method = document.getElementById("paymentMethod").value;
+      const trx = document.getElementById("trx").value;
+      const screenshotInput = document.getElementById("screenshot");
+      const packageName = localStorage.getItem("selected_package") || "Not selected";
 
-      fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ chat_id: chatId, text: message })
-      });
+      if (!method || !fbLink || !email || !phone || !trx || !screenshotInput.files[0]) {
+        alert("⚠️ Please fill in all fields and upload a screenshot.");
+        return;
+      }
 
-      const formData = new FormData();
-      formData.append("chat_id", chatId);
-      formData.append("photo", screenshotInput.files[0]);
+      const reader = new FileReader();
+      reader.onload = function () {
+        const botToken = "8026518851:AAErSnJE5y1jw-Y46Evfl63QrXnytU2XgOg";
+        const chatId = "7749577158";
 
-      fetch(`https://api.telegram.org/bot${botToken}/sendPhoto`, {
-        method: "POST",
-        body: formData
-      });
+        const message = `
+🆕 New Follower Order:
+━━━━━━━━━━━━━━
+📦 Package: ${packageName}
+🔗 FB Link: ${fbLink}
+📧 Email: ${email}
+📱 Phone: ${phone}
+💳 Payment: ${method}
+🧾 TXN ID: ${trx}
+📸 Screenshot: Attached`;
 
-      //  Redirect to success page
-      setTimeout(() => {
-        window.location.href = "successful.html";
-      }, 1500);
-    };
+        fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ chat_id: chatId, text: message })
+        });
 
-    reader.readAsDataURL(screenshotInput.files[0]);
-  }
-</script>
+        const formData = new FormData();
+        formData.append("chat_id", chatId);
+        formData.append("photo", screenshotInput.files[0]);
+
+        fetch(`https://api.telegram.org/bot${botToken}/sendPhoto`, {
+          method: "POST",
+          body: formData
+        });
+
+        setTimeout(() => {
+          window.location.href = "successful.html";
+        }, 1500);
+      };
+
+      reader.readAsDataURL(screenshotInput.files[0]);
+    }
+  </script>
+
+</body>
+</html>
