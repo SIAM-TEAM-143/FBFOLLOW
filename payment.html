@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Facebook Follower Payment</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom, #0f0f0f, #1a1a1a);
+      color: #fff;
+      padding: 0;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      background: #0f0f0f;
+      padding: 15px;
+      text-align: center;
+      font-size: 24px;
+      color: #00e676;
+      font-weight: bold;
+      box-shadow: 0 2px 5px #00e67630;
+      z-index: 10;
+    }
+
+    .form-box {
+      max-width: 500px;
+      margin: 30px auto;
+      background: #1e1e1e;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 0 20px #00ff8855;
+    }
+
+    label {
+      font-weight: bold;
+      margin-top: 10px;
+      display: block;
+      color: #00e676;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0 20px;
+      border-radius: 8px;
+      background: #2a2a2a;
+      color: white;
+      border: none;
+      outline: none;
+    }
+
+    .info-box {
+      background: #222;
+      padding: 12px;
+      border-left: 4px solid #00e676;
+      margin-top: -10px;
+      margin-bottom: 20px;
+      border-radius: 5px;
+    }
+
+    .number-copy {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #333;
+      padding: 10px;
+      border-radius: 6px;
+      margin-bottom: 10px;
+    }
+
+    .number-copy span {
+      font-weight: bold;
+      color: #00e676;
+    }
+
+    .copy-btn {
+      background: #00e676;
+      border: none;
+      color: black;
+      padding: 5px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .highlight {
+      background: #003300;
+      padding: 8px;
+      border-radius: 5px;
+      color: #a6ffa6;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    .btn {
+      background: linear-gradient(to right, #00e676, #00c853);
+      color: black;
+      padding: 12px;
+      border: none;
+      width: 100%;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: 0.3s;
+    }
+
+    .btn:hover {
+      background: linear-gradient(to right, #00c853, #00e676);
+    }
+
+    .success {
+      display: none;
+      background: #00c853;
+      padding: 15px;
+      text-align: center;
+      margin-top: 20px;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <header> Payment & Facebook Follower Order</header>
+
+  <div class="form-box">
+    <label> Facebook Page/Profile Link</label>
+    <input type="url" id="fbLink" placeholder="https://facebook.com/yourpage" required>
+
+    <label> Your Email</label>
+    <input type="email" id="email" placeholder="your@gmail.com" required>
+
+    <label> Your Phone Number</label>
+    <input type="text" id="phone" placeholder="017xxxxxxxx" required>
+
+    <label> Select Payment Method</label>
+    <select id="paymentMethod" onchange="updatePaymentInfo()">
+      <option value="">-- Select Method --</option>
+      <option value="bKash">bKash</option>
+      <option value="Nagad">Nagad</option>
+    </select>
+
+    <div class="info-box" id="paymentInfo" style="display:none;"></div>
+
+    <label> Transaction ID</label>
+    <input type="text" id="trx" placeholder="TXN239384" required>
+
+    <label> Upload Screenshot</label>
+    <input type="file" id="screenshot" accept="image/*" required>
+
+    <button class="btn" onclick="submitOrder()"> Submit Order</button>
+
+    <div class="success" id="successMsg"> Order Submitted Successfully! Please wait for confirmation.</div>
+  </div>
+
+  <script>
+  function updatePaymentInfo() {
+    const method = document.getElementById("paymentMethod").value;
+    const infoBox = document.getElementById("paymentInfo");
+    if (method === "bKash") {
+      infoBox.innerHTML = `
+        <div class="number-copy">
+          <span> bKash: 0197846464</span>
+          <button class="copy-btn" onclick="copyText('0197846464')">Copy</button>
+        </div>
+        <div class="highlight">        , </div>
+      `;
+      infoBox.style.display = "block";
+    } else if (method === "Nagad") {
+      infoBox.innerHTML = `
+        <div class="number-copy">
+          <span> Nagad: 0192828272</span>
+          <button class="copy-btn" onclick="copyText('0192828272')">Copy</button>
+        </div>
+        <div class="highlight">        , </div>
+      `;
+      infoBox.style.display = "block";
+    } else {
+      infoBox.style.display = "none";
+    }
+  }
+
+  function copyText(number) {
+    navigator.clipboard.writeText(number);
+    alert(" Number copied: " + number);
+  }
+
+  function submitOrder() {
+    const fbLink = document.getElementById("fbLink").value;
+    const email = document.getElementById("email").value;
+    const phone = document.getElementById("phone").value;
+    const method = document.getElementById("paymentMethod").value;
+    const trx = document.getElementById("trx").value;
+    const screenshotInput = document.getElementById("screenshot");
+
+    if (!method || !fbLink || !email || !phone || !trx || !screenshotInput.files[0]) {
+      alert(" Please fill in all fields and upload a screenshot.");
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = function () {
+      const botToken = "8026518851:AAErSnJE5y1jw-Y46Evfl63QrXnytU2XgOg";
+      const chatId = "7749577158";
+
+      const message = `
+ New Follower Order:
+
+ FB Link: ${fbLink}
+ Email: ${email}
+ Phone: ${phone}
+ Payment: ${method}
+ TXN ID: ${trx}
+ Screenshot: Attached`;
+
+      fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ chat_id: chatId, text: message })
+      });
+
+      const formData = new FormData();
+      formData.append("chat_id", chatId);
+      formData.append("photo", screenshotInput.files[0]);
+
+      fetch(`https://api.telegram.org/bot${botToken}/sendPhoto`, {
+        method: "POST",
+        body: formData
+      });
+
+      //  Redirect to success page
+      setTimeout(() => {
+        window.location.href = "successful.html";
+      }, 1500);
+    };
+
+    reader.readAsDataURL(screenshotInput.files[0]);
+  }
+</script>
