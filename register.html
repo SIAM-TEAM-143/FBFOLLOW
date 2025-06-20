@@ -1,7 +1,8 @@
-<!-- register.html --><!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Register</title>
   <style>
     body {
@@ -60,28 +61,40 @@
     }
   </style>
 </head>
-<body><div class="register-box">
-  <h2>Create Account</h2>
-  <input type="text" id="name" placeholder="Your Name" required>
-  <input type="email" id="email" placeholder="Email Address" required>
-  <input type="password" id="password" placeholder="Password" required>
-  <button onclick="registerUser()">Register</button>
-  <p>Already have an account? <a href="login.html">Login</a></p>
-</div><script>
-  function registerUser() {
-    const name = document.getElementById("name").value;
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
+<body>
+  <div class="register-box">
+    <h2>Create Account</h2>
+    <input type="text" id="name" placeholder="Your Name" required />
+    <input type="email" id="email" placeholder="Email Address" required />
+    <input type="password" id="password" placeholder="Password" required />
+    <button onclick="registerUser()">Register</button>
+    <p>Already have an account? <a href="login.html">Login</a></p>
+  </div>
 
-    if (!name || !email || !password) {
-      alert("Please fill all fields");
-      return;
-    }
+<script>
+function registerUser() {
+  const name = document.getElementById("name").value.trim();
+  const email = document.getElementById("email").value.trim().toLowerCase();
+  const password = document.getElementById("password").value;
 
-    const user = { name, email, password };
-    localStorage.setItem("user_" + email, JSON.stringify(user));
-    alert("✅ Registration successful! Please login.");
-    window.location.href = "login.html";
+  if (!name || !email || !password) {
+    alert("Please fill all fields");
+    return;
   }
-</script></body>
+
+  if (localStorage.getItem("user_" + email)) {
+    alert("This email is already registered. Please login.");
+    window.location.href = "login.html";
+    return;
+  }
+
+  // Save user data (password plain text here, not secure)
+  const user = { name, email, password };
+  localStorage.setItem("user_" + email, JSON.stringify(user));
+
+  alert("✅ Registration successful! Please login.");
+  window.location.href = "login.html";
+}
+</script>
+</body>
 </html>
