@@ -1,0 +1,100 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Panel</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #111;
+      color: #fff;
+      padding: 20px;
+    }
+    h2 {
+      text-align: center;
+      color: #00e676;
+      margin-bottom: 20px;
+    }
+    .user-count {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 18px;
+      color: #ccc;
+    }
+    .order-card {
+      background: #1e1e1e;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 15px;
+      box-shadow: 0 0 10px rgba(0, 230, 118, 0.2);
+    }
+    .order-card p {
+      margin: 5px 0;
+    }
+    .status {
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-weight: bold;
+      display: inline-block;
+    }
+    .pending {
+      background: orange;
+      color: #000;
+    }
+    .success {
+      background: #00e676;
+      color: #000;
+    }
+    button {
+      background: #00e676;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h2>Admin Panel - Orders & Users</h2>
+  <div class="user-count" id="userCount">Total Users: 0</div>
+  <div id="orderList"></div>  <script>
+    const users = Object.keys(localStorage).filter(k => k.startsWith("user_"));
+    document.getElementById("userCount").innerText = `Total Users: ${users.length}`;
+
+    const orders = JSON.parse(localStorage.getItem("orders") || "[]");
+    const orderList = document.getElementById("orderList");
+
+    function renderOrders() {
+      orderList.innerHTML = '';
+      orders.forEach((order, index) => {
+        const statusClass = order.status === 'success' ? 'success' : 'pending';
+        const statusLabel = order.status === 'success' ? 'Successful ✅' : 'Pending...';
+
+        const div = document.createElement("div");
+        div.className = "order-card";
+        div.innerHTML = `
+          <p><b>Name:</b> ${order.name}</p>
+          <p><b>Email:</b> ${order.email}</p>
+          <p><b>Phone:</b> ${order.phone}</p>
+          <p><b>Page:</b> <a href="${order.fb}" target="_blank">Link</a></p>
+          <p><b>TXN ID:</b> ${order.trx}</p>
+          <p><span class="status ${statusClass}">${statusLabel}</span></p>
+          ${order.status === 'pending' ? `<button onclick="markSuccess(${index})">Mark as Successful</button>` : ''}
+        `;
+        orderList.appendChild(div);
+      });
+    }
+
+    function markSuccess(index) {
+      orders[index].status = 'success';
+      localStorage.setItem("orders", JSON.stringify(orders));
+
+      // Notify via Telegram (optional logic here)
+
+      renderOrders();
+    }
+
+    renderOrders();
+  </script></body>
+</html>
